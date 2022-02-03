@@ -1,37 +1,42 @@
-### Introduction
-
-* [Video](https://www.youtube.com/watch?v=bkJZDmreIpA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=1)
-* [Slides](https://www.slideshare.net/AlexeyGrigorev/data-engineering-zoomcamp-introduction)
-* Overview of [Architecture](https://github.com/DataTalksClub/data-engineering-zoomcamp#overview), [Technologies](https://github.com/DataTalksClub/data-engineering-zoomcamp#technologies) & [Pre-Requisites](https://github.com/DataTalksClub/data-engineering-zoomcamp#prerequisites)
 
 
-### [Docker + Postgres](2_docker_sql)
+# Steps followed
 
-* Introduction to Docker
-  * [Video](https://www.youtube.com/watch?v=EYNwNlOrpr0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=3)
-* Setup: Postgres with Docker 
-  * [Video](https://www.youtube.com/watch?v=2JM-ziJt0WI&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=4)
-* Workshop: Data Exploration with SQL (NY Trips Data)
-  * [Video](https://www.youtube.com/watch?v=hCAIVe9N0ow&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=5)
-* Putting the ingestion script to Docker 
-  * Video: WIP
-* Running Postgres and pgAdmin with Docker-Compose
-  * Video: WIP
-* SQL refreshser
-  * Video: WIP
+docker network create pg-network
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v {pwd}/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5433:5432 \
+  --network=pg-network \
+  --name pg-database \
+  postgres:13
 
 
-### [GCP + Terraform](1_terraform_gcp)
+docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  --network=pg-network \
+  --name pgadmin\
+  dpage/pgadmin4
 
-* Introduction to GCP (Google Cloud Platform)
-  * [Video](https://www.youtube.com/watch?v=18jIzE41fJ4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=2)
-* Introduction to Terraform Concepts & GCP Pre-Requisites
-  * [Video](https://www.youtube.com/watch?v=Hajwnmj0xfQ&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=6)
-  * [Companion Notes](1_terraform_gcp)
-* Workshop: Creating GCP Infrastructure with Terraform
-  * Video: TBD (18.01)
-  * [Workshop](1_terraform_gcp/terraform)
 
-### [Homework](homework.md)
+docker build -t taxi_ingest:v001 .
 
-* More information [here](homework.md)
+export URL="https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv"
+
+docker run -it \
+    --network=pg-network \
+    taxi_ingest:v001 \
+        --user=root \
+        --password=root \
+        --host=172.18.0.2 \
+        --port=5432 \
+        --db=ny_taxi \
+        --table_name=yellow_taxi_trips \
+        --url=${URL}
+
+
