@@ -67,9 +67,9 @@ Question: how many DAG runs are green for data in 2019 after finishing everythin
 Note: when processing the data for 2020-01 you probably will get an error. It's up 
 to you to decide what to do with it - for Week 3 homework we won't need 2020 data.
 
-### Answer 3: 
+### Answer 3:  12 DAG runs are green
 Created the DAG [fhv_data_ingestion_gcs_dag_v01] [dags/fhv_data_ingestion_gcs_dag_v01.py]
-23 DAG runs are green after finishing. Got the parsing error for file 2020-01
+Got the parsing error for file 2020-01
 
 ## Question 4: DAG for Zones (2 points)
 
