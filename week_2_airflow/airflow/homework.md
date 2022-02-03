@@ -30,7 +30,7 @@ What should be the start date for this dag?
 * 2021-01-01
 * days_ago(1)
 
-# Answer 1: 2019-01-01
+### Answer 1: 2019-01-01
 
 ## Question 2: Frequency for the Yellow taxi data (1 point)
 
@@ -41,7 +41,7 @@ How often do we need to run this DAG?
 * Yearly
 * Once
 
-# Answer 2: Monthly
+### Answer 2: Monthly
 
 For the yellow taxi data, Created the DAG [yellow_taxi_data_ingestion_gcs_dag_v01] [dags/yellow_taxi_data_ingestion_gcs_dag_v01.py]
 
@@ -67,7 +67,7 @@ Question: how many DAG runs are green for data in 2019 after finishing everythin
 Note: when processing the data for 2020-01 you probably will get an error. It's up 
 to you to decide what to do with it - for Week 3 homework we won't need 2020 data.
 
-#Answer 3: 
+### Answer 3: 
 Created the DAG [fhv_data_ingestion_gcs_dag_v01] [dags/fhv_data_ingestion_gcs_dag_v01.py]
 23 DAG runs are green after finishing. Got the parsing error for file 2020-01
 
@@ -89,5 +89,5 @@ How often does it need to run?
 * Yearly
 * Once
 
-# Answer 4: Once
+### Answer 4: Once
 Created the DAG [zone_data_ingestion_gcs_dag] [dags/zone_data_ingestion_gcs_dag.py]
