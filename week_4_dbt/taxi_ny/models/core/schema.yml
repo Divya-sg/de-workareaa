@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: dim_zones
+    description: >
+      List of unique zones identified by locationid. 
+  - name: fact_fhv_trips
+    description: >
+      Taxi trips corresponding to FHV
+      
